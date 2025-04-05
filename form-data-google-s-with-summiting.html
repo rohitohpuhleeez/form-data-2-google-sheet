@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea,
+        input,
+        select {
+            width: 100%;
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Product Feedback Form</h2>
+        <form method="post" id="form">
+            <div id="res" style="color: #28a745; font-size: 14px;"></div>
+            <label>Name:</label>
+            <input type="text" name="name">
+
+            <label>Email:</label>
+            <input type="email" name="email">
+
+            <label>Phone</label>
+            <input type="text" name="phone">
+
+            <button name="btn">Submit</button>
+        </form>
+    </div>
+
+    <br>
+
+    <a style="display: flex; gap: 5px; align-items: center;" target="_blank" href="https://docs.google.com/spreadsheets/d/12vnkMecuFoWaNoN3L9qVKaykQn-2Fj10GIvtgPAlxI8/edit?usp=sharing">
+        <img height="33px" src="Google_Sheets_2020_Logo.svg.png">
+        <p>Data Collected Through Form</p>
+    </a>
+
+</body>
+
+<script>
+    let url = 'https://script.google.com/macros/s/AKfycbyFhR6O27OZ3sVD-7FYGi-ybpnxvUEeBMjPXhAuBoXUxVhF5u3VaLolfe7Nm0MMoWB2Rg/exec'
+    let form = document.querySelector('#form');
+    form.addEventListener("submit", (e) => {
+
+        e.target.btn.innerHTML = "Submitting.....";
+
+        let d = new FormData(form);
+        fetch(url, {
+            method: "POST",
+            body: d
+        }).then((res) => res.text())
+            .then((finalRes) => {
+
+                e.target.btn.innerHTML = "Submited";
+                document.getElementById("res").innerHTML = finalRes;
+
+                console.log(finalRes)
+            })
+
+        setTimeout(() => {
+            document.getElementById("res").innerHTML = '';
+            form.reset();
+            e.target.btn.innerHTML = "Submit";
+        }, 5000)
+
+        e.preventDefault();
+    })
+
+</script>
+
+</html>
